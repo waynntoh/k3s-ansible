@@ -1,0 +1,20 @@
+---
+- name: Restart cluster servers
+  hosts: server
+  become: true
+  tasks:
+    - name: Restart k3s server systemd service
+      ansible.builtin.systemd:
+        name: k3s
+        state: "restarted"
+        enabled: true
+
+- name: Restart cluster servers
+  hosts: agent 
+  become: true
+  tasks:
+    - name: Restart k3s agent systemd service
+      ansible.builtin.systemd:
+        name: k3s-agent
+        state: "restarted"
+        enabled: true

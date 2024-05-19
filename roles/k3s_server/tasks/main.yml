@@ -93,6 +93,14 @@
       when: (groups['server'] | length) > 1
       ansible.builtin.pause:
         seconds: 10
+    
+    - name: Pause to allow the kubevip control plane VIP to be up
+      ansible.builtin.wait_for:
+        host: '{{ api_endpoint }}'
+        port: '{{ api_port }}'
+        connect_timeout: 3
+        timeout: 600
+      run_once: true
 
     - name: Check whether kubectl is installed on control node
       ansible.builtin.command: 'kubectl'
